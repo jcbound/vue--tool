@@ -1,8 +1,7 @@
 <template>
-  <div id="app">
+  <div>
     <div id="nav">
-      <el-button type="primary" @click="handleClick">访问跳转</el-button>
-      <!-- <router-link to="/">Home</router-link>|
+      <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>|
       <router-link to="/test">Test</router-link>|
       <router-link to="/login" target="_blank">login</router-link>|
@@ -18,12 +17,12 @@
       <router-link to="/table02">table02</router-link>|
       <router-link to="/table03">table03</router-link>|
       <router-link to="/form4">form4</router-link>|
-      <router-link to="/routeceshi">routeceshi</router-link>
+      <router-link to="/routeceshi">routeceshi</router-link>|
       <router-link to="/form5">form5</router-link>|
-      <el-button @click="handleHelp">跳转</el-button> -->
+      <el-button @click="handleHelp">跳转</el-button>
     </div>
     <!-- <rightSlider v-if="!$route.meta.keepAlive"></rightSlider> -->
-    <router-view />
+    <Footer v-show="isShow"></Footer>
   </div>
 </template>
 <style lang="less">
@@ -53,18 +52,18 @@ body {
 }
 </style>
 <script>
-import slider from "./components/slider";
-import rightSlider from "./components/rightSlider";
-import Header from "./components/header";
-import Footer from "./page/footer";
+// import slider from "./components/slider";
+// import rightSlider from "./components/rightSlider";
+// import Header from "./components/header";
+// import Footer from "./page/footer";
 
 export default {
   name: "app",
   components: {
-    slider,
-    rightSlider,
-    Header,
-    Footer
+    // slider,
+    // rightSlider,
+    // Header,
+    // Footer
   },
   data() {
     return {
@@ -79,9 +78,6 @@ export default {
         
       });
       window.open(href, "_blank");
-    },
-    handleClick(){
-      this.$router.push('./routeNav')
     }
   },
   watch: {
