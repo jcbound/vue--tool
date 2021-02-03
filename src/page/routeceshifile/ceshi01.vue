@@ -3,24 +3,24 @@
     <li>
       <span>买家下单</span>
       <div class="bar-date">
-        <span>下单时间</span><br />
+        <span>下单时间</span><br>
         <span>2019-03-12 22:00:01</span>
       </div>
     </li>
     <li class="active">
       <span>买家付款</span>
       <div class="bar-date">
-        <span>付款时间</span><br />
+        <span>付款时间</span><br>
         <span>2019-03-12 22:01:01</span>
       </div>
     </li>
     <li>
       <span>发货</span>
-      <div class="bar-date"></div>
+      <div class="bar-date" />
     </li>
     <li>
       <span>买家确认收货</span>
-      <div class="bar-date"></div>
+      <div class="bar-date" />
     </li>
   </div>
 </template>

@@ -6,19 +6,18 @@
     <router-link to="/jiandanceshi/posts">/user/foo/posts</router-link>|
     <search-form
       size="medium"
-      labelWidth="60px"
-      :searchData="searchData"
-      :searchForm="searchForm"
-    >
-    </search-form>
+      label-width="60px"
+      :search-data="searchData"
+      :search-form="searchForm"
+    />
   </div>
 </template>
 <script>
-import { searchFormdata } from "@/components/test";
-import SearchForm from "@/page/component1";
+import { searchFormdata } from '@/components/test'
+import SearchForm from '@/page/component1'
 export default {
   components: {
-    SearchForm,
+    SearchForm
   },
   data() {
     return {
@@ -26,29 +25,29 @@ export default {
         name: null,
         age: null,
         sex: null,
-        date: "",
-        interst: [],
+        date: '',
+        interst: []
       },
       age: [
-        { label: "十二", value: "12" },
-        { label: "十一", value: "11" },
+        { label: '十二', value: '12' },
+        { label: '十一', value: '11' }
       ],
-      searchForm: searchFormdata,
-    };
+      searchForm: searchFormdata
+    }
   },
   created() {
-    this.sendData();
+    this.sendData()
   },
   methods: {
     sendData() {
       this.$axios
         .get(
-          "/mockapi.eolinker.com/cuKf4eM11133b446bff9b77bbd4e6f139a687903dcf6559/vuex/ceshi"
+          '/mockapi.eolinker.com/cuKf4eM11133b446bff9b77bbd4e6f139a687903dcf6559/vuex/ceshi'
         )
         .then(function (response) {
-          console.log(response);
-        });
-    },
-  },
-};
+          console.log(response)
+        })
+    }
+  }
+}
 </script>

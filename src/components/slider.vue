@@ -1,11 +1,11 @@
 <template>
   <div id="example-4">
-   <input type="radio" id="one" value="One" v-model="picked">
-  <label for="one">One</label>
-    <br />
-    <input type="radio" id="two" value="Two" v-model="picked" />
+    <input id="one" v-model="picked" type="radio" value="One">
+    <label for="one">One</label>
+    <br>
+    <input id="two" v-model="picked" type="radio" value="Two">
     <label for="two">Two</label>
-    <br />
+    <br>
     <span>Picked: {{ picked }}</span>
   </div>
 </template>
@@ -23,13 +23,12 @@
 </style>
 <script>
 
-
 export default {
-  name: "slider",
+  name: 'Slider',
   data() {
     return {
-        picked:'wodeshouji'
-    };
+      picked: 'wodeshouji'
+    }
   }
-};
+}
 </script>

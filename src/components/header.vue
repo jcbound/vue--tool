@@ -1,7 +1,7 @@
 <template>
-	<div class="Header">
-		<div>我是头部</div>
-	</div>
+  <div class="Header">
+    <div>我是头部</div>
+  </div>
 </template>
 <style>
 	.Header>div{
@@ -13,9 +13,9 @@
 	}
 </style>
 <script>
-	export default{
-		data(){
-			return{}
-		}
-	}
+export default {
+  data() {
+    return {}
+  }
+}
 </script>

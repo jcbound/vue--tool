@@ -2,41 +2,41 @@
   <el-form :size="size" inline :label-width="labelWidth">
     <el-form-item
       v-for="item in searchForm"
-      :label="item.label"
       :key="item.prop"
+      :label="item.label"
     >
       <!-- 输入框 -->
       <el-input
-        clearable
         v-if="item.type === 'Input'"
         v-model="searchData[item.prop]"
+        clearable
         :size="size"
         :placeholder="item.placeholder"
         :style="{ width: item.width }"
-      ></el-input>
+      />
       <!-- 下拉框 -->
       <el-select
-        clearable
         v-if="item.type === 'Select'"
-        :placeholder="item.placeholder"
         v-model="searchData[item.prop]"
+        clearable
+        :placeholder="item.placeholder"
         :style="{ width: item.width }"
         :size="size"
         @change="item.change(searchData[item.prop])"
       >
         <el-option
           v-for="op in item.options"
+          :key="op.value"
           :label="op.label"
           :value="op.value"
-          :key="op.value"
-        ></el-option>
+        />
       </el-select>
       <!-- 单选 -->
       <el-radio-group
         v-if="item.type === 'Radio'"
         v-model="searchData[item.prop]"
       >
-        <el-radio v-for="ra in item.radios" :label="ra.value" :key="ra.value">{{
+        <el-radio v-for="ra in item.radios" :key="ra.value" :label="ra.value">{{
           ra.label
         }}</el-radio>
       </el-radio-group>
@@ -48,58 +48,56 @@
       >
         <el-radio-button
           v-for="ra in item.radios"
-          :label="ra.value"
           :key="ra.value"
-          >{{ ra.label }}</el-radio-button
-        >
+          :label="ra.value"
+        >{{ ra.label }}</el-radio-button>
       </el-radio-group>
       <!-- 复选框 -->
       <el-checkbox-group
         v-if="item.type === 'Checkbox'"
-        :style="{ width: item.width }"
         v-model="searchData[item.prop]"
+        :style="{ width: item.width }"
       >
         <el-checkbox
           v-for="ch in item.checkboxs"
-          :label="ch.value"
           :key="ch.value"
-          >{{ ch.label }}</el-checkbox
-        >
+          :label="ch.value"
+        >{{ ch.label }}</el-checkbox>
       </el-checkbox-group>
       <!-- 日期 -->
       <el-date-picker
         v-if="item.type === 'Date'"
-        :placeholder="item.placeholder"
         v-model="searchData[item.prop]"
-      ></el-date-picker>
+        :placeholder="item.placeholder"
+      />
       <!-- 时间 -->
       <el-time-select
         v-if="item.type === 'Time'"
         v-model="searchData[item.prop]"
         type=""
-      ></el-time-select>
+      />
       <!-- 日期时间 -->
       <el-date-picker
         v-if="item.type === 'DateTime'"
-        type="datetime"
         v-model="searchData[item.prop]"
+        type="datetime"
         :disabled="item.disable && item.disable(searchData[item.prop])"
-      ></el-date-picker>
+      />
       <!-- 滑块 -->
       <!-- <el-slider v-if="item.type==='Slider'" v-model="searchData[item.prop]"></el-slider> -->
       <!-- 开关 -->
       <el-switch
         v-if="item.type === 'Switch'"
         v-model="searchData[item.prop]"
-      ></el-switch>
+      />
       <!-- 搜索search -->
       <div v-if="item.type === 'searchInput'">
         <el-input
-          placeholder="请输入内容"
           v-model="input3"
+          placeholder="请输入内容"
           class="input-with-select"
         >
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-button slot="append" icon="el-icon-search" />
         </el-input>
         <button>更多</button>
       </div>
@@ -110,14 +108,13 @@
             </el-form-item>
         </div> -->
   </el-form>
-  <el-form inline v-if="isHandle">
+  <el-form v-if="isHandle" inline>
     <el-form-item v-for="item in searchHandle" :key="item.label">
       <el-button
         :type="item.type"
         :size="item.size || size"
         @click="item.handle()"
-        >{{ item.label }}</el-button
-      >
+      >{{ item.label }}</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -126,31 +123,31 @@ export default {
   props: {
     isHandle: {
       type: Boolean,
-      default: true,
+      default: true
     },
     labelWidth: {
       type: String,
-      default: "100px",
+      default: '100px'
     },
     size: {
       type: String,
-      default: "medium",
+      default: 'medium'
     },
     searchForm: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
     searchHandle: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
     searchData: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   data() {
-    return {};
-  },
-};
+    return {}
+  }
+}
 </script>

@@ -1,8 +1,8 @@
 <template>
-    <div id="leftnav2">
-        <div class="right1" v-on:click="showlarge(ceshi)">{{value}}-{{post.title}}-{{post.id}}<strong>Error!</strong>
+  <div id="leftnav2">
+    <div class="right1" @click="showlarge(ceshi)">{{ value }}-{{ post.title }}-{{ post.id }}<strong>Error!</strong>
       <slot>Something bad happened.</slot></div>
-    </div>
+  </div>
 </template>
 <style>
 #leftnav2>.right1 {
@@ -15,18 +15,18 @@
 </style>
 <script>
 export default {
-    name: "propCeshi",
-    props: ['post'],
-    data: function() {
-        return {
-            message: 1,
-            value: 0,
-            ceshi:10
+  name: 'PropCeshi',
+  props: ['post'],
+  data: function() {
+    return {
+      message: 1,
+      value: 0,
+      ceshi: 10
 
-        }
-    },
-    methods: {
-        showlarge(ceshi) { this.$emit('enlargetext',ceshi) }
     }
+  },
+  methods: {
+    showlarge(ceshi) { this.$emit('enlargetext', ceshi) }
+  }
 }
 </script>

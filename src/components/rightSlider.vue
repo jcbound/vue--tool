@@ -1,8 +1,8 @@
 <template>
-	<div class="rightSlider">
-		<h2>我是右边</h2>
-		
-	</div>
+  <div class="rightSlider">
+    <h2>我是右边</h2>
+
+  </div>
 </template>
 <style>
 	.rightSlider{
@@ -15,10 +15,10 @@
 	}
 </style>
 <script>
-	export default{
-		name:'rightSlider',
-		data(){
-			return{}
-		}
-	}
+export default {
+  name: 'RightSlider',
+  data() {
+    return {}
+  }
+}
 </script>

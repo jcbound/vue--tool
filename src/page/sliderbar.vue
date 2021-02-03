@@ -1,7 +1,7 @@
 <template>
-    <div id="leftnav1">
-        <div class="left">{{value}}</div>
-    </div>
+  <div id="leftnav1">
+    <div class="left">{{ value }}</div>
+  </div>
 </template>
 <style>
 #leftnav1>.left{
@@ -9,19 +9,19 @@
     width: 100px;
     height: 100px;
     background-color: #003399;
-    color: #9966FF	
+    color: #9966FF
 }
 </style>
 <script>
 export default {
-    name: "leftNav",
-    data: function() {
-        return {
-            message: 1,
-            value:2
+  name: 'LeftNav',
+  data: function() {
+    return {
+      message: 1,
+      value: 2
 
-        }
     }
+  }
 
 }
 </script>

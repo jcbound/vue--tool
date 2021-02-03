@@ -26,14 +26,14 @@
         <el-button type="primary" @click="add">增加</el-button>
     </div> -->
    <!--  <tableC
-    
+
     >
-      
+
     </tableC> -->
-    
+
   <!--   </div>
 </template> -->
- 
+
 <template>
   <div>
     <p>shopInfo</p>
@@ -43,53 +43,59 @@
         ref="multipleTable"
         :data="tableData3"
         border
-        style="width: 100%">
+        style="width: 100%"
+      >
         <el-table-column
           label="序号"
           type="index"
-          width="55">
-        </el-table-column>
+          width="55"
+        />
         <el-table-column
           label="公司名称"
-          show-overflow-tooltip>
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
-            <el-input v-model="scope.row.name" placeholder="请输入公司名称"></el-input>
+            <el-input v-model="scope.row.name" placeholder="请输入公司名称" />
           </template>
         </el-table-column>
         <el-table-column
           label="注册时间"
-          show-overflow-tooltip>
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
             <el-date-picker
               v-model="scope.row.date"
               type="date"
-              placeholder="选择日期">
-            </el-date-picker>
+              placeholder="选择日期"
+            />
           </template>
         </el-table-column>
         <el-table-column
           label="注册资金"
-          show-overflow-tooltip>
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
-            <el-input @blur="InputNumber(scope.row, 'amount')" v-model="scope.row.amount" placeholder="请输入注册资金"></el-input>
+            <el-input v-model="scope.row.amount" placeholder="请输入注册资金" @blur="InputNumber(scope.row, 'amount')" />
           </template>
         </el-table-column>
         <el-table-column
           label="注册文件"
-          show-overflow-tooltip>
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
             <el-upload
               class="upload-demo"
               :action="action"
               :data="uploadData"
               :on-preview="handlePreview"
-          
+
               :on-remove="function(file,fileList){return handleRemove(file,fileList,scope.$index)}"
               :on-success="function(res,file,fileList){return handleSuccess(res,file,fileList,scope.$index)}"
               multiple
               :limit="1"
-              :file-list="fileList[scope.$index]">
-              <el-button size="small" type="text" v-if="!scope.row.file">上传文件</el-button>
+              :file-list="fileList[scope.$index]"
+            >
+              <el-button v-if="!scope.row.file" size="small" type="text">上传文件</el-button>
             </el-upload>
             <span class="delete" @click="deleteCompany(scope.$index)"><img src="/static/images/close.png" alt=""></span>
           </template>
@@ -117,7 +123,7 @@
 // import apiPath from 'rootPath/config/api.json' // api文件
 
 export default {
-  name: 'shopInfo',
+  name: 'ShopInfo',
 
   data () {
     return {
@@ -126,7 +132,7 @@ export default {
       fileList: [[]],
       // action: `${host.apiUrl}${apiPath.common.qiniuupload}`,
       action: ``,
-      uploadData: {userId: 1304, pathName: 'company'}
+      uploadData: { userId: 1304, pathName: 'company' }
     }
   },
 
@@ -183,7 +189,7 @@ export default {
     },
 
     // 预览图片
-    handlePreview (file) { 
+    handlePreview (file) {
 
     },
 

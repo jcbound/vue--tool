@@ -1,7 +1,7 @@
 <template>
-    <div class="footer">
-        <h3>wo shi footer</h3>
-    </div>
+  <div class="footer">
+    <h3>wo shi footer</h3>
+  </div>
 </template>
 <style>
 .footer {
@@ -15,11 +15,11 @@
 </style>
 <script>
 export default {
-    name: 'Footer',
-    data() {
-        return {
+  name: 'Footer',
+  data() {
+    return {
 
-        }
     }
+  }
 }
 </script>

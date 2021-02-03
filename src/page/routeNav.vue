@@ -2,12 +2,12 @@
   <div>
     <div id="nav">
       <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>|
-      <router-link to="/test">Test</router-link>|
+      <router-link to="/about">表格合并</router-link>|
+      <router-link to="/test">箭头进度条</router-link>|
       <router-link to="/login" target="_blank">login</router-link>|
-      <router-link to="/tree">tree</router-link>|
+      <router-link to="/tree">树形下拉增删改</router-link>|
       <router-link to="/table">table</router-link>|
-      <router-link to="/form">form</router-link>|
+      <router-link to="/form">树形表格增删改功能</router-link>|
       <router-link to="/formceshi">form1</router-link>|
       <router-link to="/user/foo">/user/foo</router-link>|
       <router-link to="/user/foo/profile">/user/foo/profile</router-link>|
@@ -22,7 +22,7 @@
       <el-button @click="handleHelp">跳转</el-button>
     </div>
     <!-- <rightSlider v-if="!$route.meta.keepAlive"></rightSlider> -->
-    <Footer v-show="isShow"></Footer>
+    <Footer v-show="isShow" />
   </div>
 </template>
 <style lang="less">
@@ -58,7 +58,7 @@ body {
 // import Footer from "./page/footer";
 
 export default {
-  name: "app",
+  name: 'App',
   components: {
     // slider,
     // rightSlider,
@@ -68,26 +68,25 @@ export default {
   data() {
     return {
       isShow: true
-    };
+    }
+  },
+  watch: {
+    $route(to) {
+      if (to.path != '/' && to.path != '/test') {
+        this.isShow = false
+      } else {
+        this.isShow = true
+      }
+    }
   },
   methods: {
     handleHelp() {
       // const para={prject:"123465789"}
       const { href } = this.$router.resolve({
-        path: `/routeceshi?project=79879494`,
-        
-      });
-      window.open(href, "_blank");
-    }
-  },
-  watch: {
-    $route(to) {
-      if (to.path != "/" && to.path != "/test") {
-        this.isShow = false;
-      } else {
-        this.isShow = true;
-      }
+        path: `/routeceshi?project=79879494`
+      })
+      window.open(href, '_blank')
     }
   }
-};
+}
 </script>

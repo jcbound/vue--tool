@@ -3,38 +3,38 @@
     <el-form :size="size" inline :label-width="labelWidth">
       <el-form-item
         v-for="item in searchForm"
-        :label="item.label"
         :key="item.prop"
+        :label="item.label"
       >
         <!-- 输入框 -->
         <el-input
-          clearable
           v-if="item.type === 'Input'"
-          :type="item.subType"
           v-model="searchData[item.prop]"
+          clearable
+          :type="item.subType"
           :size="size"
           :placeholder="item.placeholder"
           :style="{ width: item.width }"
-        ></el-input>
+        />
         <!-- <div class="textinput-content">
                         <el-input clearable v-if="item.type==='Input'" :type="item.subType" v-model="searchData[item.prop]" :size="size" :placeholder="item.placeholder" :style="{width: item.width}"></el-input>
                     </div> -->
         <!-- 下拉框 -->
         <el-select
-          clearable
           v-if="item.type === 'Select'"
-          :placeholder="item.placeholder"
           v-model="searchData[item.prop]"
+          clearable
+          :placeholder="item.placeholder"
           :style="{ width: item.width }"
           :size="size"
           @change="item.change(searchData[item.prop])"
         >
           <el-option
             v-for="op in item.options"
+            :key="op.value"
             :label="op.label"
             :value="op.value"
-            :key="op.value"
-          ></el-option>
+          />
         </el-select>
         <!-- 搜索search -->
         <!-- <div v-if="item.type==='searchInput'" class="search-content">
@@ -65,33 +65,33 @@ export default {
   props: {
     isHandle: {
       type: Boolean,
-      default: false,
+      default: false
     },
     labelWidth: {
       type: String,
-      default: "100px",
+      default: '100px'
     },
     size: {
       type: String,
-      default: "medium",
+      default: 'medium'
     },
     searchForm: {
       type: Array,
-      default: [],
+      default: []
     },
     searchHandle: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
     searchData: {
       type: Object,
-      default: {},
-    },
+      default: {}
+    }
   },
   data() {
-    return {};
-  },
-};
+    return {}
+  }
+}
 </script>
 <style>
 .main-content {

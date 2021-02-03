@@ -1,275 +1,271 @@
 <template>
-    <div v-loading="isLoading" class="comp-tree">
-        <el-button class="comp-tr-top" type="primary" size="small" @click="handleAddTop">添加顶级节点</el-button>
-        <!-- tree -->
-        <el-tree ref="SlotTree" :data="setTree" :props="defaultProps" :expand-on-click-node="false" highlight-current :node-key="NODE_KEY" @node-click='getNodeData'>
-            <div class="comp-tr-node" slot-scope="{ node, data }">
-                <!-- 编辑状态 -->
-                <template v-if="node.isEdit">
-                    <el-input v-model="data.name" autofocus size="mini" :ref="'slotTreeInput'+data[NODE_KEY]" @blur.stop="handleInput(node, data)" @keyup.enter.native="handleInput(node, data)"></el-input>
-                </template>
-                <!-- 非编辑状态 -->
-                <template v-else>
-                    <!-- 名称： 新增节点增加class（is-new） -->
-                    <span :class="[data[NODE_KEY] < NODE_ID_START ? 'is-new' : '', 'comp-tr-node--name']">{{ node.label }}</span>
-                    <!-- 按钮 -->
-                    <span class="comp-tr-node--btns">
-                        <!-- 新增 -->
-                        <el-button style="background-color:transparent;border:none" class="no-background-btn" icon="el-icon-edit" size="mini" circle type="primary" @click="handleEdit()"></el-button>
-                        <!-- 编辑 -->
-                        <el-button v-if="isShow" icon="el-icon-circle-plus-outline" style="background-color:transparent;border:none" size="mini" circle type="info" @click="handleAdd(node, data)"></el-button>
-                        <!-- 删除 -->
-                        <el-button icon="el-icon-remove-outline" style="background-color:transparent;border:none" size="mini" circle type="danger" @click="handleDelete(node,data)"></el-button>
-                    </span>
-                </template>
-            </div>
-        </el-tree>
-        <!-- 模态框 -->
-        <template>
-            <el-select v-model="value" placeholder="请选择">
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-            </el-select>
+  <div v-loading="isLoading" class="comp-tree">
+    <el-button class="comp-tr-top" type="primary" size="small" @click="handleAddTop">添加顶级节点</el-button>
+    <!-- tree -->
+    <el-tree ref="SlotTree" :data="setTree" :props="defaultProps" :expand-on-click-node="false" highlight-current :node-key="NODE_KEY" @node-click="getNodeData">
+      <div slot-scope="{ node, data }" class="comp-tr-node">
+        <!-- 编辑状态 -->
+        <template v-if="node.isEdit">
+          <el-input :ref="'slotTreeInput'+data[NODE_KEY]" v-model="data.name" autofocus size="mini" @blur.stop="handleInput(node, data)" @keyup.enter.native="handleInput(node, data)" />
         </template>
-    </div>
+        <!-- 非编辑状态 -->
+        <template v-else>
+          <!-- 名称： 新增节点增加class（is-new） -->
+          <span :class="[data[NODE_KEY] < NODE_ID_START ? 'is-new' : '', 'comp-tr-node--name']">{{ node.label }}</span>
+          <!-- 按钮 -->
+          <span class="comp-tr-node--btns">
+            <!-- 新增 -->
+            <el-button style="background-color:transparent;border:none" class="no-background-btn" icon="el-icon-edit" size="mini" circle type="primary" @click="handleEdit()" />
+            <!-- 编辑 -->
+            <el-button v-if="isShow" icon="el-icon-circle-plus-outline" style="background-color:transparent;border:none" size="mini" circle type="info" @click="handleAdd(node, data)" />
+            <!-- 删除 -->
+            <el-button icon="el-icon-remove-outline" style="background-color:transparent;border:none" size="mini" circle type="danger" @click="handleDelete(node,data)" />
+          </span>
+        </template>
+      </div>
+    </el-tree>
+    <!-- 模态框 -->
+    <template>
+      <el-select v-model="value" placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+    </template>
+  </div>
 </template>
 <script>
 export default {
-    name: "component-tree",
-    data() {
-        return {
-            isLoading: false, // 是否加载
-            isShow: true,
-            setTree: [{
-                    label: "一级 1",
-                    children: [{
-                        label: "二级 1-1",
-                        children: [{
-                            label: "三级 1-1-1"
-                        }]
-                    }]
-                },
-                {
-                    label: "一级 2",
-                    children: [{
-                            label: "二级 2-1",
-                            children: [{
-                                label: "三级 2-1-1"
-                            }]
-                        },
-                        {
-                            label: "二级 2-2",
-                            children: [{
-                                label: "三级 2-2-1"
-                            }]
-                        }
-                    ]
-                },
-                {
-                    label: "一级 3",
-                    children: [{
-                            label: "二级 3-1",
-                            children: [{
-                                label: "三级 3-1-1"
-                            }]
-                        },
-                        {
-                            label: "二级 3-2",
-                            children: [{
-                                label: "三级 3-2-1"
-                            }]
-                        }
-                    ]
-                }
-            ],
-            options: [{
-                value: '选项1',
-                label: '黄金糕'
-            }, {
-                value: '选项2',
-                label: '双皮奶'
-            }, {
-                value: '选项3',
-                label: '蚵仔煎'
-            }, {
-                value: '选项4',
-                label: '龙须面'
-            }, {
-                value: '选项5',
-                label: '北京烤鸭'
-            }],
-            value: '',
-            editForm: {
-                organizationType: '',
-                parentOrganization: 'nihao',
-                organizationCode: '',
-                organizationName: ''
-            },
-            dialogStatus: "",
-            textMap: {
-                update: "Edit",
-                create: "Create"
-            },
-            dialogFormVisible: false,
-            filters: {
-                name: ""
-            },
-            users: [], // tree数据
-            NODE_KEY: "id", // id对应字段
-            MAX_LEVEL: 3, // 设定最大层级
-            NODE_ID_START: 0, // 新增节点id，逐次递减
-            startId: null,
-            defaultProps: {
-                // 默认设置
-                children: "children",
-                label: "label"
-            },
-            initParam: {
-                // 新增参数
-                label: "新增节点",
-                pid: 0,
-                children: []
-            }
-        };
-    },
-    created() {
-        // 初始值
-        this.startId = this.NODE_ID_START;
-
-    },
-    methods: {
-        hideButton() {
-            if (setTree[0].label == '一级1') {
-                isShow = false
-
-            }
-            hideButton()
+  name: 'ComponentTree',
+  data() {
+    return {
+      isLoading: false, // 是否加载
+      isShow: true,
+      setTree: [{
+        label: '一级 1',
+        children: [{
+          label: '二级 1-1',
+          children: [{
+            label: '三级 1-1-1'
+          }]
+        }]
+      },
+      {
+        label: '一级 2',
+        children: [{
+          label: '二级 2-1',
+          children: [{
+            label: '三级 2-1-1'
+          }]
         },
-        handleDelete(_node, _data) {
-            // 删除节点
-            console.log(_node, _data);
-            // 判断是否存在子节点
-            if (_data.children && _data.children.length !== 0) {
-                this.$message.error("此节点有子级，不可删除！");
-                return false;
-            } else {
-                // 删除操作
-                let DeletOprate = () => {
-                    this.$nextTick(() => {
-                        if (this.$refs.SlotTree) {
-                            this.$refs.SlotTree.remove(_data);
-                            this.$message.success("删除成功！");
-                        }
-                    });
-                };
-                // 二次确认
-                let ConfirmFun = () => {
-                    this.$confirm("是否删除此节点？", "提示", {
-                            confirmButtonText: "确认",
-                            cancelButtonText: "取消",
-                            type: "warning"
-                        })
-                        .then(() => {
-                            DeletOprate();
-                        })
-                        .catch(() => {});
-                };
-                // 判断是否新增： 新增节点直接删除，已存在的节点要二次确认
-                _data[this.NODE_KEY] < this.NODE_ID_START ?
-                    DeletOprate() :
-                    ConfirmFun();
-            }
-        },
-        handleInput(_node, _data) {
-            // 修改节点
-            console.log(_node, _data);
-            // 退出编辑状态
-            if (_node.isEdit) {
-                this.$set(_node, "isEdit", false);
-            }
-        },
-        handleEdit(_node, _data) {
-            // 编辑节点
-            console.log(_node, _data);
-            // 设置编辑状态
-            if (!_node.isEdit) {
-                this.$set(_node, "isEdit", true);
-            }
-            // 输入框聚焦
-            this.$nextTick(() => {
-                if (this.$refs["slotTreeInput" + _data[this.NODE_KEY]]) {
-                    this.$refs[
-                        "slotTreeInput" + _data[this.NODE_KEY]
-                    ].$refs.input.focus();
-                }
-            });
-        },
-        handleAdd(_node, _data) {
-            // 新增节点
-            console.log(_node, _data);
-            // 判断层级
-            if (_node.level >= this.MAX_LEVEL) {
-                this.$message.warning("当前已达到" + this.MAX_LEVEL + "级，无法新增！");
-                return false;
-            }
-            // 参数修改
-            let obj = JSON.parse(JSON.stringify(this.initParam)); // copy参数
-            obj.pid = _data[this.NODE_KEY]; // 父id
-            obj[this.NODE_KEY] = --this.startId; // 节点id：逐次递减id
-            // 判断字段是否存在
-            if (!_data.children) {
-                this.$set(_data, "children", []);
-            }
-            // 新增数据
-            _data.children.push(obj);
-            // 展开节点
-            if (!_node.expanded) {
-                _node.expanded = true;
-            }
-        },
-        handleAddTop() {
-            // 添加顶部节点
-            let obj = JSON.parse(JSON.stringify(this.initParam)); // copy参数
-            obj[this.NODE_KEY] = --this.startId; // 节点id：逐次递减id
-            this.setTree.push(obj);
-        },
-
-        // 模态框处理
-        getNodeData: function(node, data) {
-            console.log(this.editFrom)
-            window.console.log(data)
-            this.editForm.parentOrganizaiton = data.parent.label
-            console.log(data.parent.label)
-            console.log(this.editFrom)
-            console.log(this.parentOrganization)
-        },
-        handleEdit: function(index, row) {
-            this.dialogStatus = "update";
-            this.dialogFormVisible = true;
-            //this.editFormVisible = true;
-            this.editForm = Object.assign({}, row);
-            console.log(this.editForm);
-        },
-        //显示新增界面
-        handleAdd: function() {
-            this.dialogStatus = "create";
-            //this.addFormVisible = true;
-            this.dialogFormVisible = true;
-            console.log(this.editFrom)
-            let para = Object.assign({}, this.editForm);
-            console.log(this.para)
-            this.editForm = {
-                id: "0",
-                name: "",
-                sex: -1,
-                age: 0,
-                birth: "",
-                addr: ""
-            };
-
+        {
+          label: '二级 2-2',
+          children: [{
+            label: '三级 2-2-1'
+          }]
         }
+        ]
+      },
+      {
+        label: '一级 3',
+        children: [{
+          label: '二级 3-1',
+          children: [{
+            label: '三级 3-1-1'
+          }]
+        },
+        {
+          label: '二级 3-2',
+          children: [{
+            label: '三级 3-2-1'
+          }]
+        }
+        ]
+      }
+      ],
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: '',
+      editForm: {
+        organizationType: '',
+        parentOrganization: 'nihao',
+        organizationCode: '',
+        organizationName: ''
+      },
+      dialogStatus: '',
+      textMap: {
+        update: 'Edit',
+        create: 'Create'
+      },
+      dialogFormVisible: false,
+      filters: {
+        name: ''
+      },
+      users: [], // tree数据
+      NODE_KEY: 'id', // id对应字段
+      MAX_LEVEL: 3, // 设定最大层级
+      NODE_ID_START: 0, // 新增节点id，逐次递减
+      startId: null,
+      defaultProps: {
+        // 默认设置
+        children: 'children',
+        label: 'label'
+      },
+      initParam: {
+        // 新增参数
+        label: '新增节点',
+        pid: 0,
+        children: []
+      }
     }
-};
+  },
+  created() {
+    // 初始值
+    this.startId = this.NODE_ID_START
+  },
+  methods: {
+    hideButton() {
+      if (setTree[0].label == '一级1') {
+        isShow = false
+      }
+      hideButton()
+    },
+    handleDelete(_node, _data) {
+      // 删除节点
+      console.log(_node, _data)
+      // 判断是否存在子节点
+      if (_data.children && _data.children.length !== 0) {
+        this.$message.error('此节点有子级，不可删除！')
+        return false
+      } else {
+        // 删除操作
+        let DeletOprate = () => {
+          this.$nextTick(() => {
+            if (this.$refs.SlotTree) {
+              this.$refs.SlotTree.remove(_data)
+              this.$message.success('删除成功！')
+            }
+          })
+        }
+        // 二次确认
+        let ConfirmFun = () => {
+          this.$confirm('是否删除此节点？', '提示', {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+            .then(() => {
+              DeletOprate()
+            })
+            .catch(() => {})
+        }
+        // 判断是否新增： 新增节点直接删除，已存在的节点要二次确认
+        _data[this.NODE_KEY] < this.NODE_ID_START
+          ? DeletOprate()
+          : ConfirmFun()
+      }
+    },
+    handleInput(_node, _data) {
+      // 修改节点
+      console.log(_node, _data)
+      // 退出编辑状态
+      if (_node.isEdit) {
+        this.$set(_node, 'isEdit', false)
+      }
+    },
+    handleEdit(_node, _data) {
+      // 编辑节点
+      console.log(_node, _data)
+      // 设置编辑状态
+      if (!_node.isEdit) {
+        this.$set(_node, 'isEdit', true)
+      }
+      // 输入框聚焦
+      this.$nextTick(() => {
+        if (this.$refs['slotTreeInput' + _data[this.NODE_KEY]]) {
+          this.$refs[
+            'slotTreeInput' + _data[this.NODE_KEY]
+          ].$refs.input.focus()
+        }
+      })
+    },
+    handleAdd(_node, _data) {
+      // 新增节点
+      console.log(_node, _data)
+      // 判断层级
+      if (_node.level >= this.MAX_LEVEL) {
+        this.$message.warning('当前已达到' + this.MAX_LEVEL + '级，无法新增！')
+        return false
+      }
+      // 参数修改
+      let obj = JSON.parse(JSON.stringify(this.initParam)) // copy参数
+      obj.pid = _data[this.NODE_KEY] // 父id
+      obj[this.NODE_KEY] = --this.startId // 节点id：逐次递减id
+      // 判断字段是否存在
+      if (!_data.children) {
+        this.$set(_data, 'children', [])
+      }
+      // 新增数据
+      _data.children.push(obj)
+      // 展开节点
+      if (!_node.expanded) {
+        _node.expanded = true
+      }
+    },
+    handleAddTop() {
+      // 添加顶部节点
+      let obj = JSON.parse(JSON.stringify(this.initParam)) // copy参数
+      obj[this.NODE_KEY] = --this.startId // 节点id：逐次递减id
+      this.setTree.push(obj)
+    },
+
+    // 模态框处理
+    getNodeData: function(node, data) {
+      console.log(this.editFrom)
+      window.console.log(data)
+      this.editForm.parentOrganizaiton = data.parent.label
+      console.log(data.parent.label)
+      console.log(this.editFrom)
+      console.log(this.parentOrganization)
+    },
+    handleEdit: function(index, row) {
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      // this.editFormVisible = true;
+      this.editForm = Object.assign({}, row)
+      console.log(this.editForm)
+    },
+    // 显示新增界面
+    handleAdd: function() {
+      this.dialogStatus = 'create'
+      // this.addFormVisible = true;
+      this.dialogFormVisible = true
+      console.log(this.editFrom)
+      let para = Object.assign({}, this.editForm)
+      console.log(this.para)
+      this.editForm = {
+        id: '0',
+        name: '',
+        sex: -1,
+        age: 0,
+        birth: '',
+        addr: ''
+      }
+    }
+  }
+}
 </script>
 <style lang="scss">
 /* common */
