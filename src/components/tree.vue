@@ -1,5 +1,6 @@
 <template>
   <div v-loading="isLoading" class="comp-tree">
+
     <el-button class="comp-tr-top" type="primary" size="small" @click="handleAddTop">添加顶级节点</el-button>
     <!-- tree -->
     <el-tree ref="SlotTree" :data="setTree" :props="defaultProps" :expand-on-click-node="false" highlight-current :node-key="NODE_KEY" @node-click="getNodeData">

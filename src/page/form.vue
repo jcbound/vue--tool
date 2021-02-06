@@ -1,16 +1,6 @@
 <template>
   <div class="dialog-content">
-    <!-- <el-form ref="elForm" :model="formData" :rules="rules" size="small" label-width="100px">
-        <el-form-item label="模板名称" prop="mobile">
-          <el-input v-model="formData.mobile" placeholder="请输入" clearable />
-        </el-form-item>
-        <el-form-item label="模板说明" prop="field102">
-          <el-input v-model="formData.field102" type="textarea" placeholder="请输入多行文本" :autosize="{minRows: 2, maxRows: 3}" />
-        </el-form-item>
-        <div class="template-table-top">
-          <span class="template-table-title">模板明细</span>
-        </div>
-      </el-form> -->
+    <!-- 树形表格增删改功能 -->
     <el-table :data="tableData" class="table-content" style="margin-bottom: 20px" row-key="id" border default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
       <el-table-column prop="id" label="序号" width="180" />
       <el-table-column prop="taskName" label="任务名称" width="180">
@@ -90,37 +80,6 @@ export default {
           children: [],
           master: true
         }
-        // }, {
-        //   id: 2,
-        //   date: '2016-05-04',
-        //   taskName: '王小虎',
-        //   taskDescription: '上海市普陀区金沙江路 1517 弄',
-        //   isEditing: false
-        // }, {
-        //   id: 3,
-        //   date: '2016-05-01',
-        //   taskName: '王小虎',
-        //   taskDescription: '上海市普陀区金沙江路 1519 弄',
-        //   isEditing: false,
-        //   children: [{
-        //     id: 31,
-        //     date: '2016-05-01',
-        //     taskName: '王小虎',
-        //     taskDescription: '上海市普陀区金沙江路 1519 弄',
-        //     isEditing: false
-        //   }, {
-        //     id: 32,
-        //     date: '2016-05-01',
-        //     taskName: '王小虎',
-        //     taskDescription: '上海市普陀区金沙江路 1519 弄'
-        //   }]
-        // }, {
-        //   id: 4,
-        //   date: '2016-05-03',
-        //   taskName: '王小虎',
-        //   taskDescription: '上海市普陀区金沙江路 1516 弄',
-        //   isEditing: false
-        // }
       ],
       maxTableHeight: 350,
       listQuery: {
@@ -135,6 +94,7 @@ export default {
   watch: {
     visible(value) {
       if (value) {
+        console.log(value)
       }
     }
   },
@@ -195,39 +155,8 @@ export default {
           })
         }
       }
-
-      // this.tableData.splice(index + 1, 0, { id: `${+item.id + 1}`, taskName: '1-19测试', taskDescription: '测试是否正常', isEditing: true, master: true, children: [] })
-      // this.tableData.forEach((item, index) => {
-      //   console.log(item.id, '888888')
-      //   if (item.id === row.id) {
-      //     console.log(item.id, '777')
-      //     if (key === 'masterTaskDown') {
-      //       console.log('是否执行了')
-      //       this.tableData.splice(index + 1, 0, { id: `${+item.id + 1}`, taskName: '1-19测试', taskDescription: '测试是否正常', isEditing: true, master: true, children: [] })
-      //     } else {
-      //       if (row.id === '1') {
-      //         console.log('999999999,是否是1')
-      //         this.tableData.splice(index, 0, { id: `1`, taskName: '1-19测试为啥不行呢', taskDescription: '测试是否正常', isEditing: true, master: true, children: [] })
-      //       } else {
-      //         this.tableData.splice(index, 0, { id: `${+item.id - 1}`, taskName: '1-20测试', taskDescription: '测试是否正常', isEditing: true, master: true, children: [] })
-      //       }
-      //     }
-      //   }
-      // })
       console.log(this.tableData)
       // 插入数据后进行排序
-      // let arr = this.tableData.slice(1)
-      // let arr1 = this.tableData.slice(this.tableData.length - 1, this.tableData.length)
-      // let id = `${this.tableData[this.tableData.length - 1].id}`
-      // function sort(array) {
-      //   array.forEach(item => {
-      //     item.id = `${+id + 1}`
-      //     if (item.children && item.children.length > 0) {
-      //       sort(item.chileren)
-      //     }
-      //   })
-      // }
-      // sort(arr1)
       function sort(tableData, key) {
         tableData.forEach((item, index) => {
           if (key === 'masterTaskDown') {
@@ -237,9 +166,6 @@ export default {
               console.log('555555555')
             }
           }
-          // if ((`${item.id}`).startsWith('1')) {
-          //   return false
-          // } else {
           if (item.id.includes('.')) {
             let str = item.id.slice(0, 1)
             item.id = `${+str + 1}${item.id.slice(1)}`
@@ -249,22 +175,8 @@ export default {
           if (item.children && item.children.length > 0) {
             sort(item.children)
           }
-          // }
         })
       }
-      // function sort1(tableData) {
-      //   tableData.forEach((item, index) => {
-      //     if (item.id.includes('.')) {
-      //       let str = item.id.slice(0, 1)
-      //       item.id = `${+str + 1}${item.id.slice(1)}`
-      //     } else {
-      //       item.id = `${+item.id + 1}`
-      //     }
-      //     if (item.children && item.children.length > 0) {
-      //       sort1(item.children)
-      //     }
-      //   })
-      // }
       if (key === 'masterTaskUp') {
         let currentIndex = this.tableData.findIndex((item) => {
           return item.id === row.id
@@ -312,21 +224,6 @@ export default {
       let level = 0
       let currentLevel = 0
       var deleteAndSort = (row) => {
-        console.log(this, '456')
-        console.log(this.tableData, '7777777')
-        // 递归找出删除行row.id与tableData的子项id相等的删除
-        // function removeCurrentRow(tableData) {
-        //   for (let index = 0; index < tableData.length; index++) {
-        //     if (tableData[index].id === row.id) {
-        //       tableData.splice(index, 1)
-        //       return
-        //     } else {
-        //       if (tableData[index].children && tableData[index].children.length > 0) {
-        //         removeCurrentRow(tableData[index].children)
-        //       }
-        //     }
-        //   }
-        // }
         let count = []
         function removeCurrentRow(tableData) {
           tableData.forEach((item, index) => {
@@ -349,7 +246,6 @@ export default {
         removeCurrentRow(this.tableData)
 
         if (row.master) {
-          console.log('44444444444444')
           // 判断点击的是主任务行,递归进行重新排序
           let currentIndex = this.tableData.findIndex((item) => {
             return item.id === `${+row.id - 1}`
@@ -362,45 +258,30 @@ export default {
             return item.id === row.id.slice(0, 1)
           })
           let arr = this.tableData.slice(currentIndex)
-          console.log(arr, '55555555555')
-
           sort2(arr)
         }
 
         function sort2(tableData) {
           tableData.forEach((item, index) => {
             if (!item.id.includes('.')) {
-              console.log('是否执行了')
-            } else if (item.id.includes('.') && item.id.length === 3) {
-              console.log('是否执行了1')
+              // return false
+            } else if (item.id.includes('.') && item.id.length >= 3) {
               if (index === 0) {
-                item.id = `${item.id.slice(0, item.id.length - 1)}1`
-                console.log('是否执行了2')
+                //  currentLevel变量为每一层级父节点id值,
+                if (currentLevel) {
+                  if (currentLevel.slice(0, currentLevel.length - 1) === `${item.id.slice(0, item.id.length - 1)}`) {
+                    item.id = `${item.id.slice(0, item.id.length - 1)}1`
+                  } else {
+                    item.id = `${currentLevel}.1`
+                  }
+                } else {
+                  item.id = `${item.id.slice(0, item.id.length - 1)}1`
+                }
               } else {
-                item.id = `${item.id.slice(0, item.id.length - 1)}${+tableData[index - 1].id.slice(
-                  tableData[index - 1].id.length - 1,
-                  tableData[index - 1].id.length
-                ) + 1
-                }`
-                console.log('是否执行了3')
+                item.id = `${tableData[index - 1].id.slice(0, tableData[index - 1].id.length - 1)}${+tableData[index - 1].id.slice(tableData[index - 1].id.length - 1) + 1}`
               }
               currentLevel = item.id
               console.log(currentLevel, '第一次')
-            } else {
-              if (index === 0) {
-                item.id = `${currentLevel}.1`
-                console.log('是否执行了4')
-              } else {
-                console.log(currentLevel, '不是2')
-                item.id = `${item.id.slice(0, item.id.length - 1)}${+tableData[index - 1].id.slice(
-                  tableData[index - 1].id.length - 1,
-                  tableData[index - 1].id.length
-                ) + 1
-                }`
-                console.log(item.id, '是否执行了5')
-              }
-              currentLevel = item.id
-              console.log(currentLevel, '第二次')
             }
             if (item.children && item.children.length > 0) {
               sort2(item.children)

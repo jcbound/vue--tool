@@ -1,3 +1,11 @@
+<!--
+ * @Author: 马金成
+ * @Date: 2021-01-30 14:34:56
+ * @LastEditors  : jcbound
+ * @LastEditTime : 2021-02-04 23:24:22
+ * @Description: 我添加了修改
+ * @FilePath     : \vuetest\src\page\formceshi.vue
+-->
 <template>
   <div>
     <search-form size="medium" label-width="100px" :search-data="searchData" :search-form="searchForm" :search-handle="searchHandle" />
@@ -6,18 +14,26 @@
       <el-button size="small" type="primary">点击上传</el-button>
       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
     </el-upload>
+    <draggable v-model="myArray" group="people" @start="drag=true" @end="drag=false">
+      <div v-for="element in myArray" :key="element.id">{{ element.name }}</div>
+    </draggable>
   </div>
 </template>
 <script>
+
 import SearchForm from '@/page/component1'
+import draggable from 'vuedraggable'
 export default {
   components: {
-    SearchForm
+    SearchForm,
+    draggable
   },
   data() {
     return {
       input: '',
       searchData: [],
+      drag: true,
+      myArray: [{ id: '01', name: 'xiaoli' }, { id: '02', name: 'xiaozhang' }, { id: '03', name: 'xiaoliu' }],
       searchForm: [
 
         // { type: 'searchInput' },

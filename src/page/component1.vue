@@ -1,40 +1,23 @@
+<!--
+ * @Author: jcbound
+ * @Date: 2021-01-30 14:34:56
+ * @LastEditors: jcbound
+ * @LastEditTime: 2021-02-03 23:39:09
+ * @Description: 我添加了修改
+ * @FilePath: \vuetest\src\page\component1.vue
+-->
 <template>
   <div class="main-content">
     <el-form :size="size" inline :label-width="labelWidth">
-      <el-form-item
-        v-for="item in searchForm"
-        :key="item.prop"
-        :label="item.label"
-      >
+      <el-form-item v-for="item in searchForm" :key="item.prop" :label="item.label">
         <!-- 输入框 -->
-        <el-input
-          v-if="item.type === 'Input'"
-          v-model="searchData[item.prop]"
-          clearable
-          :type="item.subType"
-          :size="size"
-          :placeholder="item.placeholder"
-          :style="{ width: item.width }"
-        />
+        <el-input v-if="item.type === 'Input'" v-model="searchData[item.prop]" clearable :type="item.subType" :size="size" :placeholder="item.placeholder" :style="{ width: item.width }" />
         <!-- <div class="textinput-content">
                         <el-input clearable v-if="item.type==='Input'" :type="item.subType" v-model="searchData[item.prop]" :size="size" :placeholder="item.placeholder" :style="{width: item.width}"></el-input>
                     </div> -->
         <!-- 下拉框 -->
-        <el-select
-          v-if="item.type === 'Select'"
-          v-model="searchData[item.prop]"
-          clearable
-          :placeholder="item.placeholder"
-          :style="{ width: item.width }"
-          :size="size"
-          @change="item.change(searchData[item.prop])"
-        >
-          <el-option
-            v-for="op in item.options"
-            :key="op.value"
-            :label="op.label"
-            :value="op.value"
-          />
+        <el-select v-if="item.type === 'Select'" v-model="searchData[item.prop]" clearable :placeholder="item.placeholder" :style="{ width: item.width }" :size="size" @change="item.change(searchData[item.prop])">
+          <el-option v-for="op in item.options" :key="op.value" :label="op.label" :value="op.value" />
         </el-select>
         <!-- 搜索search -->
         <!-- <div v-if="item.type==='searchInput'" class="search-content">
@@ -77,7 +60,7 @@ export default {
     },
     searchForm: {
       type: Array,
-      default: []
+      default: () => []
     },
     searchHandle: {
       type: Array,
@@ -85,7 +68,7 @@ export default {
     },
     searchData: {
       type: Object,
-      default: {}
+      default: () => { }
     }
   },
   data() {

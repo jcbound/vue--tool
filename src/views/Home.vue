@@ -5,11 +5,7 @@
       <el-table-column label="性别" prop="sex" />
       <el-table-column align="right">
         <template slot="header" slot-scope="scope">
-          <el-checkbox
-            v-model="checkAll"
-            :indeterminate="isIndeterminate"
-            @change="handleCheckAllChange"
-          >隐藏</el-checkbox>
+          <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">隐藏</el-checkbox>
         </template>
         <template slot-scope="scope">
           <el-checkbox v-model="scope.row.checked" @change="handleCheckOneChange">隐藏</el-checkbox>
@@ -84,7 +80,7 @@ export default {
         someStatusCount > 0 && someStatusCount < totalCount
     },
     expandChange(row, rows) {
-      this.$nextTick(function() {
+      this.$nextTick(function () {
         // this.ceshiData为勾选外层表格selection数组
 
         this.ceshiData.forEach((item, i) => {

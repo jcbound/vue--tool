@@ -1,3 +1,11 @@
+<!--
+ * @Author: 马金成
+ * @Date: 2021-01-30 14:34:56
+ * @LastEditors  : jcbound
+ * @LastEditTime : 2021-02-04 00:03:03
+ * @Description: 我添加了修改
+ * @FilePath     : \vuetest\src\page\form5.vue
+-->
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="80px">

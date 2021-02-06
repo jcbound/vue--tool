@@ -1,18 +1,18 @@
+<!--
+ * @Author       : jcbound
+ * @Date         : 2021-01-30 14:34:56
+ * @LastEditors  : jcbound
+ * @LastEditTime : 2021-02-04 00:02:35
+ * @Description  : 我添加了修改
+ * @FilePath     : \vuetest\src\page\form4.vue
+-->
+
 <template>
   <div>
     <div style="width: 800px; margin: 0 auto">
-      <edit-form
-        ref="editForm"
-        :form-items="formItems"
-        :form-config="formConfig"
-        :data="form"
-      >
+      <edit-form ref="editForm" :form-items="formItems" :form-config="formConfig" :data="form">
         <div slot="actRange2">
-          <el-select
-            v-model="form.actRange2"
-            style="width: 100%"
-            placeholder="请选择活动区域"
-          >
+          <el-select v-model="form.actRange2" style="width: 100%" placeholder="请选择活动区域">
             <el-option label="区域一" value="shanghai" />
             <el-option label="区域二" value="beijing" />
           </el-select>
@@ -117,12 +117,17 @@ export default {
     }
   },
   methods: {
-    async submit() {
+    // 提交
+    async submit(item, index, name, key) {
       const valid = await this.$refs.editForm.validate()
       if (!valid) {
         return
       }
       console.log(this.form)
+    },
+    // 创建
+    handleCreate() {
+
     }
   }
 }

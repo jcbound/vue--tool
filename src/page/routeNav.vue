@@ -1,6 +1,15 @@
+<!--
+ * @Author: jcbound
+ * @Date: 2021-01-30 14:34:56
+ * @LastEditors  : jcbound
+ * @LastEditTime : 2021-02-06 17:44:20
+ * @Description: 我添加了修改
+ * @FilePath     : \vuetest\src\page\routeNav.vue
+-->
 <template>
   <div>
     <div id="nav">
+      <!-- 整个页面的嵌套路由展示问题 -->
       <router-link to="/">Home</router-link>|
       <router-link to="/about">表格合并</router-link>|
       <router-link to="/test">箭头进度条</router-link>|
@@ -46,9 +55,6 @@
       color: #42b983;
     }
   }
-}
-
-body {
 }
 </style>
 <script>

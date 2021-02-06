@@ -1,6 +1,6 @@
 <template>
   <div id="table01">
-    111111
+    <!-- 表格嵌套输入框写法 -->
     <div class="TestWorld">
       <el-button @click="savemodify">保存</el-button>
       <el-button @click="addLine">添加行数</el-button>

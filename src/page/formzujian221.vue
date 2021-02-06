@@ -1,29 +1,11 @@
 <template>
   <el-form ref="form" v-bind="computedConfig" :rules="rules" :model="data">
     <el-row>
-      <el-col
-        v-for="(item, index) in computedItems"
-        :key="getItemKey(item, index)"
-        :md="item.md"
-        :sm="item.sm"
-      >
+      <el-col v-for="(item, index) in computedItems" :key="getItemKey(item, index)" :md="item.md" :sm="item.sm">
         <el-form-item :label="item.label + ':'" :prop="item.prop">
-          <render-content
-            v-if="item.labelRender"
-            slot="label"
-            :render="item.labelRender"
-            :data="item"
-          />
+          <render-content v-if="item.labelRender" slot="label" :render="item.labelRender" :data="item" />
           <slot :name="item.slot" v-bind="{ item }">
-            <component
-              :is="item.component"
-              v-if="item.component"
-              :ref="item.ref || `cp-${item.prop}`"
-              v-model="data[item.prop]"
-              :data="data"
-              v-bind="item.props"
-              v-on="item.listeners"
-            />
+            <component :is="item.component" v-if="item.component" :ref="item.ref || `cp-${item.prop}`" v-model="data[item.prop]" :data="data" v-bind="item.props" v-on="item.listeners" />
             <span v-else>{{ data[item.prop] }}</span>
           </slot>
         </el-form-item>
@@ -99,12 +81,15 @@ export default {
     data: Object
   },
   computed: {
+    // 计算属性
     computedConfig() {
       return {
         ...defaultConfig,
         ...this.formConfig
       }
     },
+
+    // 计算每一项
     computedItems() {
       const itemResult = []
       for (const item of this.formItems) {

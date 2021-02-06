@@ -1,3 +1,11 @@
+<!--
+ * @Author: jcbound
+ * @Date: 2021-01-30 14:34:56
+ * @LastEditors: jcbound
+ * @LastEditTime: 2021-02-03 22:54:00
+ * @Description: 我添加了修改
+ * @FilePath: \vuetest\src\page\jiandanceshi.vue
+-->
 <template>
   <div id="app">
     <h2>123456</h2>

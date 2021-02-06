@@ -1,3 +1,11 @@
+<!--
+ * @Author: jcbound
+ * @Date: 2021-01-30 14:34:56
+ * @LastEditors: jcbound
+ * @LastEditTime: 2021-02-03 23:04:41
+ * @Description: 我添加了修改
+ * @FilePath: \vuetest\src\page\routeceshifile\ceshi01.vue
+-->
 <template>
   <div class="progress-bar" style="margin: 20px">
     <li>
@@ -36,7 +44,7 @@
   text-align: center;
 }
 .progress-bar li:after {
-  content: "";
+  content: '';
   display: block;
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
@@ -47,7 +55,7 @@
   z-index: 10;
 }
 .progress-bar li:before {
-  content: "";
+  content: '';
   display: block;
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;

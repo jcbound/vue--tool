@@ -44,15 +44,7 @@
       :total="total"
     >
     </el-pagination> -->
-    <el-table
-      ref="multipleTable"
-      v-loading="loading"
-      :data="testTableData"
-      border
-      tooltip-effect="dark"
-      :span-method="mergeColumnMethod"
-      style="width: 100%"
-    >
+    <el-table ref="multipleTable" v-loading="loading" :data="testTableData" border tooltip-effect="dark" :span-method="mergeColumnMethod" style="width: 100%">
       <el-table-column prop="state" label="日期" width="120" />
       <el-table-column prop="name" label="姓名" width="120" />
       <el-table-column prop="level" label="级别" width="120" />

@@ -1,3 +1,11 @@
+<!--
+ * @Author       : jcbound
+ * @Date         : 2021-01-30 14:34:56
+ * @LastEditors  : jcbound
+ * @LastEditTime : 2021-02-06 17:41:16
+ * @Description  : 我添加了修改
+ * @FilePath     : \vuetest\src\App.vue
+-->
 <template>
   <div id="app">
     <div id="nav">
@@ -49,17 +57,15 @@
   }
 }
 
-body {
-}
 </style>
 <script>
-import slider from "./components/slider";
-import rightSlider from "./components/rightSlider";
-import Header from "./components/header";
-import Footer from "./page/footer";
+import slider from './components/slider'
+import rightSlider from './components/rightSlider'
+import Header from './components/header'
+import Footer from './page/footer'
 
 export default {
-  name: "app",
+  name: 'App',
   components: {
     slider,
     rightSlider,
@@ -69,29 +75,29 @@ export default {
   data() {
     return {
       isShow: true
-    };
+    }
+  },
+  watch: {
+    $route(to) {
+      if (to.path != '/' && to.path != '/test') {
+        this.isShow = false
+      } else {
+        this.isShow = true
+      }
+    }
   },
   methods: {
     handleHelp() {
       // const para={prject:"123465789"}
       const { href } = this.$router.resolve({
-        path: `/routeceshi?project=79879494`,
-        
-      });
-      window.open(href, "_blank");
+        path: `/routeceshi?project=79879494`
+
+      })
+      window.open(href, '_blank')
     },
-    handleClick(){
+    handleClick() {
       this.$router.push('./routeNav')
     }
-  },
-  watch: {
-    $route(to) {
-      if (to.path != "/" && to.path != "/test") {
-        this.isShow = false;
-      } else {
-        this.isShow = true;
-      }
-    }
   }
-};
+}
 </script>

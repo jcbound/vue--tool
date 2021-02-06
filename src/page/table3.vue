@@ -3,7 +3,7 @@
   <section class="ces-table-page">
     <!-- 表格操作按钮 -->
     <section v-if="isHandle" class="ces-handle">
-      <el-button v-for="item in tableHandles" :size="item.size || size" :type="item.type" :icon="item.icon" @click="item.handle()">{{ item.label }}</el-button>
+      <el-button v-for="item in tableHandles" :key="item.icon" :size="item.size || size" :type="item.type" :icon="item.icon" @click="item.handle()">{{ item.label }}</el-button>
     </section>
     <!-- 数据表格 -->
     <section class="ces-table">
@@ -84,7 +84,7 @@ export default {
   },
   watch: {
     'defaultSelections'(val) {
-      this.$nextTick(function() {
+      this.$nextTick(function () {
         if (Array.isArray(val)) {
           val.forEach(row => {
             this.$refs.cesTable.toggleRowSelection(row)
@@ -128,7 +128,7 @@ export default {
 </script>
 <style>
 .ces-table-require::before {
-    content: '*';
-    color: red;
+  content: '*';
+  color: red;
 }
 </style>
