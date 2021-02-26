@@ -12,6 +12,7 @@ import table01 from '@/page/table01.vue'
 import table02 from '@/page/table02.vue'
 import table03 from '@/page/table03.vue'
 import form4 from '@/page/form4.vue'
+import tableshuangji from '@/page/tableshuangji.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -85,7 +86,12 @@ export default new Router({
     component: form4
   },
   {
-    path: '/routeceshi:id',
+    path: '/tableshuangji',
+    name: 'tableshuangji',
+    component: tableshuangji
+  },
+  {
+    path: '/routeceshi',
     component: () =>
             import('@/page/routeceshi.vue'),
 

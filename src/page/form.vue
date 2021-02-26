@@ -193,6 +193,11 @@ export default {
     },
     // 创建子任务
     createSonTask(row, index) {
+      let arr = row.id.split('.')
+      if (arr.length === 5) {
+        this.$message.warning('最多创建5层子任务')
+        return
+      }
       if (row.children) {
         let arr = { taskName: '王小虎' }
         row.children.push({
@@ -265,15 +270,13 @@ export default {
           tableData.forEach((item, index) => {
             if (!item.id.includes('.')) {
               // return false
+              currentLevel = 0
             } else if (item.id.includes('.') && item.id.length >= 3) {
               if (index === 0) {
-                //  currentLevel变量为每一层级父节点id值,
+                //  currentLevel变量为每一层级父节点索引为0的id值,
                 if (currentLevel) {
-                  if (currentLevel.slice(0, currentLevel.length - 1) === `${item.id.slice(0, item.id.length - 1)}`) {
-                    item.id = `${item.id.slice(0, item.id.length - 1)}1`
-                  } else {
-                    item.id = `${currentLevel}.1`
-                  }
+                  item.id = `${currentLevel}.1`
+                  // }
                 } else {
                   item.id = `${item.id.slice(0, item.id.length - 1)}1`
                 }
@@ -296,11 +299,13 @@ export default {
             } else {
               if (item.id.includes('.')) {
                 let str = item.id.slice(0, 1)
+
                 // item.id = `${str - 1}.${item.id.slice(item.id.length - 1, item.id.length) - 1}`
                 item.id = `${str - 1}${item.id.slice(1)}`
                 // item.id = `${str - 1}${item.id.slice(1)}`
               } else {
                 item.id = `${item.id - 1}`
+                console.log('797987987979 ')
               }
               if (item.children && item.children.length > 0) {
                 sort(item.children)
