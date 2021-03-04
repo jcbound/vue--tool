@@ -77,13 +77,13 @@ export default {
   },
   data() {
     return {
-      tableData: [{ index: 1, name: 'xiaoming', view: 'ceshi', edit: false, kpi: { edit: false, value: '测试问题' }, registerNum: { edit: false, value: '条件化学' }}], // table数据,
+      tableData: [], // table数据,
       data: '',
       currentColumnName: ''
     }
   },
   created() {
-    // this.getListHand()
+    this.getListHand()
   },
   methods: {
     goBack() {
@@ -97,38 +97,39 @@ export default {
       return 'border-color: #252D55; color: #C6D0FA;background:#252D55; height:22px;font-size:16px; font-family:PingFangSC-Medium,PingFangSC;font-weight:500;line-height:22px;'
     },
     async getListHand(search) {
-      if (this.type === 2) {
-        let params = {
-          page: this.pageNum,
-          pageSize: this.pageSize
-        }
-        this.data = await getpaper(params)
-      } else {
-        let params = {
-          page: this.pageNum,
-          pageSize: this.pageSize
-        }
-        params = {
-          ...params,
-          ...search
-        }
-        // if (this.isSearch) {
-        //   params = {
-        //     ...params,
-        //     ...search
-        //   }
-        // } else {
-        //   params = {
-        //     ...params,
-        //     ...this.oldSearchForm
-        //   }
-        // }
-        this.data = await getpaper(params)
-      }
-      this.tableData = this.data.data.data.entries
-      this.total = +(this.data.data.data.total)
+      // if (this.type === 2) {
+      //   let params = {
+      //     page: this.pageNum,
+      //     pageSize: this.pageSize
+      //   }
+      //   this.data = await getpaper(params)
+      // } else {
+      //   let params = {
+      //     page: this.pageNum,
+      //     pageSize: this.pageSize
+      //   }
+      //   params = {
+      //     ...params,
+      //     ...search
+      //   }
+      // if (this.isSearch) {
+      //   params = {
+      //     ...params,
+      //     ...search
+      //   }
+      // } else {
+      //   params = {
+      //     ...params,
+      //     ...this.oldSearchForm
+      //   }
+      // }
+      //   this.data = await getpaper(params)
+      // }
+
+      this.tableData = [{ index: 1, name: 'xiaoming', view: 'ceshi', kpi: '', registerNum: '' }]
+      // this.total = +(this.data.data.data.total)
       this.tableData.forEach((item, index) => {
-        item.index = index + 1
+        // item.index = index + 1
         for (let i in item) {
           item[i] = {
             value: item[i],
@@ -136,6 +137,7 @@ export default {
           }
         }
       })
+      console.log(this.tableData, '6666')
     },
     celledit(row, column) {
       if (row[column.property]) {
