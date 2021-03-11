@@ -2,7 +2,7 @@
  * @Author: jcbound
  * @Date: 2021-01-30 14:34:56
  * @LastEditors  : jcbound
- * @LastEditTime : 2021-02-26 09:27:35
+ * @LastEditTime : 2021-03-05 11:50:46
  * @Description: 我添加了修改
  * @FilePath     : \vuetest\src\page\routeNav.vue
 -->
@@ -29,6 +29,7 @@
       <router-link to="/routeceshi">routeceshi</router-link>|
       <router-link to="/form5">form5</router-link>|
       <router-link to="/tableshuangji">表格双击编辑</router-link>|
+      <router-link to="/ceshi02">vxe-table</router-link>|
       <el-button @click="handleHelp">跳转</el-button>
     </div>
     <!-- <rightSlider v-if="!$route.meta.keepAlive"></rightSlider> -->

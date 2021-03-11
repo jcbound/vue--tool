@@ -1,200 +1,158 @@
 <template>
   <div>
 
+    <vxe-toolbar>
+      <template v-slot:buttons>
+        <vxe-button @click="validEvent">校验</vxe-button>
+        <vxe-button @click="fullValidEvent">完整校验</vxe-button>
+        <vxe-button @click="validAllEvent">全量校验</vxe-button>
+        <vxe-button @click="getSelectEvent">获取选中</vxe-button>
+        <vxe-button @click="getUpdateEvent">获取修改</vxe-button>
+      </template>
+    </vxe-toolbar>
+
     <vxe-table
-      ref="xTable"
-      border
+      ref="xTree"
+      resizable
       show-overflow
-      class="vxe-table-element"
-      height="600"
-      :data="tableData"
+      keep-source
       :edit-rules="validRules"
-      highlight-current-row
-      :edit-config="{trigger: 'dblclick', mode: 'row', showStatus: true,autoClear:onEdit}"
-      @cell-dblclick="dbclickFun"
-      @edit-closed="saveFun"
+      :tree-config="treeConfig"
+      :edit-config="{trigger: 'click', mode: 'cell', showStatus: true}"
+      :checkbox-config="{labelField: 'id'}"
+      :data="tableData"
     >
-      <vxe-table-column type="index" width="80">
-        <template v-slot:header="{ column }">
-          <span>序号</span>
-          <i class="el-icon-question" />
-        </template>
-      </vxe-table-column>
-      <vxe-table-column
-        field="name"
-        title="ElInput"
-        min-width="140"
-        :edit-render="{type: 'default'}"
-      >
-        <template v-slot:edit="scope">
-          <el-input v-model="scope.row.name" @input="$refs.xTable.updateStatus(scope)" />
-        </template>
-      </vxe-table-column>
-      <vxe-table-column field="age" title="ElInputNumber" :edit-render="{type: 'default'}">
-        <template v-slot:header="{ column }">
-          <span>{{ column.title }}</span>
-          <i class="el-icon-warning" />
-        </template>
-        <template v-slot:edit="{ row }">
-          <el-input-number v-model="row.age" :max="35" :min="18" />
-        </template>
-      </vxe-table-column>
-      <vxe-table-column field="sex" title="ElSelect" width="140" :edit-render="{type: 'default'}">
-        <template v-slot:edit="scope">
-          <el-select v-model="scope.row.sex" @change="sexupda(scope)">
-            <!--可以使用change事件进行属性间的控制-->
-            <el-option
-              v-for="item in sexList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </template>
-        <template v-slot="{ row }">{{ getSelectLabel(row.sex) }}</template>
-      </vxe-table-column>
-      <vxe-table-column field="date" title="ElDatePicker123" :edit-render="{type: 'default'}">
-        <template v-slot:edit="{ row }">
-          <el-date-picker
-            v-model="row.date"
-            type="date"
-            format="yyyy/MM/dd"
-            @change="dateupda(scope)"
-          />
-        </template>
-        <!-- <template v-slot="{ row }">{{ formatDate(row.date, 'yyyy/MM/dd') }}</template> -->
-      </vxe-table-column>
-      <vxe-table-column field="date1" title="ElDatePicker" :edit-render="{type: 'default'}">
-        <template v-slot:edit="{ row }">
-          <el-date-picker v-model="row.date1" type="datetime" format="yyyy-MM-dd HH:mm:ss" />
-        </template>
-        <template v-slot="{ row }">{{ formatDate(row.date1, 'yyyy-MM-dd HH:mm:ss') }}</template>
-      </vxe-table-column>
-      <vxe-table-column field="date2" title="ElTimePicker" :edit-render="{type: 'default'}">
-        <template v-slot:edit="{ row }">
-          <el-time-select
-            v-model="row.date2"
-            :picker-options="{start: '08:30', step: '00:15', end: '18:30'}"
-          />
-        </template>
-      </vxe-table-column>
-      <vxe-table-column field="rate" title="ElRate" :edit-render="{type: 'visible'}">
-        <template v-slot:edit="{ row }">
-          <el-rate v-model="row.rate" />
-        </template>
-      </vxe-table-column>
-      <vxe-table-column field="describe" title="描述" :edit-render="{type: 'default'}">
-        <template v-slot:edit="scope">
-          <el-input v-model="scope.row.describe" @input="$refs.xTable.updateStatus(scope)" />
-        </template>
-      </vxe-table-column>
-      <vxe-table-column label="操作" width="100">
-        <template v-slot="scope">
-          <el-button size="mini" type="danger" @click="removeEvent(scope.row)">删除</el-button>
-        </template>
-      </vxe-table-column>
+      <vxe-table-column type="checkbox" title="ID" tree-node fixed="left" />
+      <vxe-table-column field="name" title="Name" :edit-render="{name: 'input'}" />
+      <vxe-table-column field="size" title="Size" :edit-render="{name: 'input'}" />
+      <vxe-table-column field="type" title="Type" :edit-render="{name: 'input'}" />
+      <vxe-table-column field="date" title="Date" :edit-render="{name: '$input', props: {type: 'date'}}" />
     </vxe-table>
+
   </div>
 </template>
 <script>
-
+import XEUtils from 'xe-utils'
 export default {
-  data() {
-    // 自定义校验方法
-    const validatePass = (rule, value, callback) => {
-      if (value == '' || value == null) {
-        callback(new Error('good'))
-      } else {
-        callback()
-      }
-    }
+  data () {
     return {
-      onedit: false,
-      onEdit: false,
-      regionList: [],
-      tableData: [{ name: 'xiaoli', sex: '女', date: '' }],
-      sexList: [{ value: '0', label: '男' }, { value: '1', label: '女' }],
-      // 验证和正常表单一样
+      tableData: [
+        { id: 1000, name: 'vxe-table 从入门到放弃1', type: 'mp3', size: 1024, date: '' },
+        {
+          id: 1005,
+          name: 'Test2',
+          type: 'mp4',
+          size: null,
+          date: '2021-04-01',
+          children: [
+            { id: 24300, name: 'Test3', type: 'avi', size: 1024, date: '2020-03-01' },
+            { id: 20045, name: 'vxe-table 从入门到放弃4', type: 'html', size: 600, date: '2021-04-01' },
+            {
+              id: 10053,
+              name: 'vxe-table 从入门到放弃96',
+              type: 'avi',
+              size: null,
+              date: '2021-04-01',
+              children: [
+                { id: 24330, name: 'vxe-table 从入门到放弃5', type: 'txt', size: 25, date: '2021-10-01' },
+                { id: 21011, name: 'Test6', type: 'pdf', size: 512, date: '2020-01-01' },
+                { id: 22200, name: 'Test7', type: 'js', size: 1024, date: '2021-06-01' }
+              ]
+            }
+          ]
+        },
+        { id: 23666, name: 'Test8', type: 'xlsx', size: 2048, date: '2020-11-01' },
+        { id: 24555, name: 'vxe-table 从入门到放弃9', type: 'avi', size: 224, date: '2020-10-01' }
+      ],
+      treeConfig: {
+        children: 'children',
+        expandAll: true
+      },
       validRules: {
         name: [
           { required: true, message: 'app.body.valid.rName' },
-          { min: 3, max: 50, message: '名称长度在 3 到 50 个字符' }
+          { min: 3, max: 50, message: '文件名长度在 3 到 50 个字符' }
         ],
-        sex: [{ required: true, message: '性别必须填写' }],
-        describe: [
-          {
-            validator: validatePass // 自定义校验方法
-          }
+        date: [
+          { required: true, message: 'app.body.valid.rName' }
         ]
       }
     }
   },
   methods: {
-    // 新增数据
-    insertEvent(row) {
-      let record = {
-        sex: '1',
-        date: new Date(),
-        date1: new Date(),
-        name: 'new',
-        describe: 'GOOD'
-      }
-      this.$refs.xTable.insertAt(record, row)
-      // .then(({ row }) => this.$refs.xTable.setActiveCell(row, "sex"));--------------------------设置行处于编辑状态（设定焦点所在）
-    },
-    // 单元格双击事件
-    dbclickFun(cell) {
-      this.onedit = false
-    },
-    // 保存数据
-    saveFun() {
-      this.onEdit = false
-      // var nowdata = this.$refs.xTable.getCurrentRow()
-      if (nowdata != null) {
-        // 走保存
-        alert(nowdata)
-      }
-    },
-    // 下拉框改变
-    sexupda(scopevalue) {
-      scopevalue.row.describe = '改了改了'
-      // this.onedit=true;
-      this.$refs.xTable.updateStatus(scopevalue)
-    },
-    // 时间框改变
-    dateupda(scopevalue) {
-      // this.onedit=true;
-    },
-    // 格式化时间类型
-    formatDate(value, format) {
-      if (value != null && value != '') {
-        return this.$utils.dateToString(value, format)
-      }
-    },
-    // 下拉框回显内容
-    getSelectLabel(value) {
-      let result = ''
-      if (value == '1') {
-        result = '女'
+    async validEvent () {
+      const errMap = await this.$refs.xTree.validate().catch(errMap => errMap)
+      if (errMap) {
+        // this.$XModal.message({ status: 'error', message: '校验不通过！' })
       } else {
-        result = '男'
+        // this.$XModal.message({ status: 'success', message: '校验成功！' })
       }
-      return result
     },
-    removeEvent(row) {
-      if (row.id) {
-        MessageBox.confirm('确定删除该数据?', '温馨提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-          .then(() => {
-            this.$refs.xTable.remove(row)
+    fullValidEvent () {
+      this.$refs.xTree.fullValidate((errMap) => {
+        if (errMap) {
+          let msgList = []
+          Object.values(errMap).forEach(errList => {
+            errList.forEach(params => {
+              let { row, column, rules } = params
+              let matchObj = XEUtils.findTree(this.tableData, item => item === row, this.treeConfig)
+              let seq = matchObj.path.filter(item => item !== this.treeConfig.children).map(item => Number(item) + 1).join('.')
+              rules.forEach(rule => {
+                // msgList.push(`第 ${seq} 行 ${column.title} 校验错误：${rule.message}`)
+              })
+            })
           })
-          .catch(e => e)
+          this.$XModal.message({
+            status: 'error',
+            message: () => {
+              return [
+                <div class='red' style='max-height: 400px;overflow: auto;'>
+                  {
+                    msgList.map(msg => {
+                      return <div>{ msg }</div>
+                    })
+                  }
+                </div>
+              ]
+            }
+          })
+        }
+      })
+
+      // } else {
+      // this.$XModal.message({ status: 'success', message: '校验成功！' })
+      // }
+      // })
+    },
+    async validAllEvent () {
+      const errMap = await this.$refs.xTree.validate(true).catch(errMap => errMap)
+      if (errMap) {
+        this.$XModal.message({ status: 'error', message: '校验不通过！' })
       } else {
-        this.$refs.xTable.remove(row)
+        this.$XModal.message({ status: 'success', message: '校验成功！' })
       }
+    },
+    selectValidEvent () {
+      let selectRecords = this.$refs.xTree.getCheckboxRecords()
+      if (selectRecords.length > 0) {
+        this.$refs.xTree.validate(selectRecords, (errMap) => {
+          if (errMap) {
+            this.$XModal.message({ status: 'error', message: '校验不通过！' })
+          } else {
+            this.$XModal.message({ status: 'success', message: '校验成功！' })
+          }
+        })
+      } else {
+        this.$XModal.message({ status: 'warning', message: '未选中数据！' })
+      }
+    },
+    getSelectEvent () {
+      let selectRecords = this.$refs.xTree.getCheckboxRecords()
+      this.$XModal.alert(selectRecords.length)
+    },
+    getUpdateEvent () {
+      let updateRecords = this.$refs.xTree.getUpdateRecords()
+      this.$XModal.alert(updateRecords.length)
     }
   }
 }
