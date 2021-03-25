@@ -130,6 +130,12 @@ export default new Router({
   }, {
     path: '/ceshi02',
     component: Ceshi02
+  }, {
+    path: '/gantt',
+    component: () => import('@/page/gantt.vue')
+  }, {
+    path: '/gantt2',
+    component: () => import('@/page/gantt2.vue')
   }
 
   ]

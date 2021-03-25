@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <el-button type="primary" @click="handleTest">测试</el-button>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column label="姓名" prop="name" />
       <el-table-column label="性别" prop="sex" />
@@ -97,6 +98,12 @@ export default {
           }
         })
       })
+    },
+    // 测试中
+    handleTest() {
+      let columnsNode = document.getElementsByClassName('has-gutter')[0].firstChild.firstChild.firstChild
+      columnsNode.textContent = '测试是否有问题'
+      console.log(columnsNode, '8098098')
     }
   }
 }

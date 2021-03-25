@@ -2,7 +2,7 @@
  * @Author: jcbound
  * @Date: 2021-01-30 14:34:56
  * @LastEditors  : jcbound
- * @LastEditTime : 2021-03-05 11:50:46
+ * @LastEditTime : 2021-03-23 21:35:41
  * @Description: 我添加了修改
  * @FilePath     : \vuetest\src\page\routeNav.vue
 -->
@@ -11,7 +11,7 @@
     <div id="nav">
       <!-- 整个页面的嵌套路由展示问题 -->
       <router-link to="/">Home</router-link>|
-      <router-link to="/about">表格合并</router-link>|
+      <router-link to="/about">表格合并</router-link>
       <router-link to="/test">箭头进度条</router-link>|
       <router-link to="/login" target="_blank">login</router-link>|
       <router-link to="/tree">树形下拉增删改</router-link>|
@@ -30,6 +30,8 @@
       <router-link to="/form5">form5</router-link>|
       <router-link to="/tableshuangji">表格双击编辑</router-link>|
       <router-link to="/ceshi02">vxe-table</router-link>|
+      <router-link to="/gantt">甘特图</router-link>|
+      <router-link to="/gantt2">甘特图2</router-link>|
       <el-button @click="handleHelp">跳转</el-button>
     </div>
     <!-- <rightSlider v-if="!$route.meta.keepAlive"></rightSlider> -->

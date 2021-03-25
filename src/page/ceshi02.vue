@@ -8,20 +8,11 @@
         <vxe-button @click="validAllEvent">全量校验</vxe-button>
         <vxe-button @click="getSelectEvent">获取选中</vxe-button>
         <vxe-button @click="getUpdateEvent">获取修改</vxe-button>
+        <el-button type="primary" @click="handleTest">测试问题</el-button>
       </template>
     </vxe-toolbar>
 
-    <vxe-table
-      ref="xTree"
-      resizable
-      show-overflow
-      keep-source
-      :edit-rules="validRules"
-      :tree-config="treeConfig"
-      :edit-config="{trigger: 'click', mode: 'cell', showStatus: true}"
-      :checkbox-config="{labelField: 'id'}"
-      :data="tableData"
-    >
+    <vxe-table ref="xTree" resizable show-overflow keep-source :edit-rules="validRules" :tree-config="treeConfig" :edit-config="{trigger: 'click', mode: 'cell', showStatus: true}" :checkbox-config="{labelField: 'id'}" :data="tableData">
       <vxe-table-column type="checkbox" title="ID" tree-node fixed="left" />
       <vxe-table-column field="name" title="Name" :edit-render="{name: 'input'}" />
       <vxe-table-column field="size" title="Size" :edit-render="{name: 'input'}" />
@@ -33,8 +24,20 @@
 </template>
 <script>
 import XEUtils from 'xe-utils'
+const throttle = (fn, wait) => {
+  let time = 0
+  return function () {
+    let now = Date.now()
+    let args = arguments
+    if (now - time > wait) {
+      fn.apply(this, args)
+      time = now
+    }
+  }
+}
 export default {
-  data () {
+
+  data() {
     return {
       tableData: [
         { id: 1000, name: 'vxe-table 从入门到放弃1', type: 'mp3', size: 1024, date: '' },
@@ -79,16 +82,17 @@ export default {
       }
     }
   },
+
   methods: {
-    async validEvent () {
+    async validEvent() {
       const errMap = await this.$refs.xTree.validate().catch(errMap => errMap)
       if (errMap) {
-        // this.$XModal.message({ status: 'error', message: '校验不通过！' })
+      // this.$XModal.message({ status: 'error', message: '校验不通过！' })
       } else {
-        // this.$XModal.message({ status: 'success', message: '校验成功！' })
+      // this.$XModal.message({ status: 'success', message: '校验成功！' })
       }
     },
-    fullValidEvent () {
+    fullValidEvent() {
       this.$refs.xTree.fullValidate((errMap) => {
         if (errMap) {
           let msgList = []
@@ -98,7 +102,7 @@ export default {
               let matchObj = XEUtils.findTree(this.tableData, item => item === row, this.treeConfig)
               let seq = matchObj.path.filter(item => item !== this.treeConfig.children).map(item => Number(item) + 1).join('.')
               rules.forEach(rule => {
-                // msgList.push(`第 ${seq} 行 ${column.title} 校验错误：${rule.message}`)
+              // msgList.push(`第 ${seq} 行 ${column.title} 校验错误：${rule.message}`)
               })
             })
           })
@@ -109,7 +113,7 @@ export default {
                 <div class='red' style='max-height: 400px;overflow: auto;'>
                   {
                     msgList.map(msg => {
-                      return <div>{ msg }</div>
+                      return <div>{msg}</div>
                     })
                   }
                 </div>
@@ -119,12 +123,12 @@ export default {
         }
       })
 
-      // } else {
-      // this.$XModal.message({ status: 'success', message: '校验成功！' })
-      // }
-      // })
+    // } else {
+    // this.$XModal.message({ status: 'success', message: '校验成功！' })
+    // }
+    // })
     },
-    async validAllEvent () {
+    async validAllEvent() {
       const errMap = await this.$refs.xTree.validate(true).catch(errMap => errMap)
       if (errMap) {
         this.$XModal.message({ status: 'error', message: '校验不通过！' })
@@ -132,7 +136,7 @@ export default {
         this.$XModal.message({ status: 'success', message: '校验成功！' })
       }
     },
-    selectValidEvent () {
+    selectValidEvent() {
       let selectRecords = this.$refs.xTree.getCheckboxRecords()
       if (selectRecords.length > 0) {
         this.$refs.xTree.validate(selectRecords, (errMap) => {
@@ -146,13 +150,19 @@ export default {
         this.$XModal.message({ status: 'warning', message: '未选中数据！' })
       }
     },
-    getSelectEvent () {
+    getSelectEvent() {
       let selectRecords = this.$refs.xTree.getCheckboxRecords()
       this.$XModal.alert(selectRecords.length)
     },
-    getUpdateEvent () {
+    getUpdateEvent() {
       let updateRecords = this.$refs.xTree.getUpdateRecords()
       this.$XModal.alert(updateRecords.length)
+    },
+
+    handleTest() {
+      let buttonNode = document.getElementsByClassName('vxe-button')[0].firstChild
+      buttonNode.textContent = '79798798'
+      console.log(buttonNode, '123124')
     }
   }
 }

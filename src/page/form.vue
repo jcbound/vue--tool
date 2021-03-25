@@ -1,5 +1,6 @@
 <template>
   <div class="dialog-content">
+    <el-button type="primary" @click="getTableData">打印tableData数据</el-button>
     <!-- 树形表格增删改功能 -->
     <el-table :data="tableData" class="table-content" style="margin-bottom: 20px" row-key="id" border default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
       <el-table-column prop="id" label="序号" width="180" />
@@ -330,6 +331,9 @@ export default {
     handleCurrentChange(val) {
       this.listQuery.pageNum = val
       this.getList()
+    },
+    getTableData() {
+      console.log(this.tableData, '99999999')
     }
   }
 }
