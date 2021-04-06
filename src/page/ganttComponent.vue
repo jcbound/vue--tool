@@ -2,14 +2,16 @@
  * @Author       : jcbound
  * @Date         : 2021-03-23 21:40:54
  * @LastEditors  : jcbound
- * @LastEditTime : 2021-03-25 13:51:07
+ * @LastEditTime : 2021-04-06 19:36:39
  * @Description  : 我添加了修改
  * @FilePath     : \vuetest\src\page\ganttComponent.vue
 -->
 <template>
   <div>
     <div class="tool-operation">
-      <span>时间刻度缩放&nbsp;&nbsp;</span><el-slider v-model="value3" :step="10" :show-tooltip="false" style="width:100px" @change="handleChange" @input="handleInput" />
+      <el-button @click="zoom_out">放大</el-button>
+      <el-button @click="zoom_in">缩小</el-button>
+      <span>时间刻度缩放&nbsp;&nbsp;</span><el-slider v-model="value3" :step="15" :show-tooltip="false" style="width:60px" @input="handleInput" />
       <el-switch v-model="value1" class="operation-switch" active-text="自适应刻度" inactive-text="时间默认刻度" @change="toggleMode($event)" />
     </div>
     <div class="gantt_control" />
@@ -23,44 +25,44 @@ var cachedSettings = {}
 var zoomConfig = {
   levels: [
     // hours
-    {
-      name: 'hour',
-      scale_height: 27,
-      scales: [
-        { unit: 'day', step: 1, format: '%d %M' },
-        { unit: 'hour', step: 1, format: '%H:%i' }
-      ]
-    },
+    // {
+    //   name: 'hour',
+    //   scale_height: 27,
+    //   scales: [
+    //     { unit: 'day', step: 1, format: '%d %M' },
+    //     { unit: 'hour', step: 1, format: '%H:%i' }
+    //   ]
+    // },
     // days
     {
       name: 'day',
       scale_height: 27,
       scales: [
-        { unit: 'day', step: 1, format: '%d %M' }
+        { unit: 'day', step: 1, format: '%M %d' }
       ]
     },
     // weeks
-    {
-      name: 'week',
-      scale_height: 50,
-      scales: [
-        {
-          unit: 'week', step: 1, format: function (date) {
-            var dateToStr = gantt.date.date_to_str('%d %M')
-            var endDate = gantt.date.add(date, -6, 'day')
-            var weekNum = gantt.date.date_to_str('%W')(date)
-            return '#' + weekNum + ', ' + dateToStr(date) + ' - ' + dateToStr(endDate)
-          }
-        },
-        { unit: 'day', step: 1, format: '%j %D' }
-      ]
-    },
+    // {
+    //   name: 'week',
+    //   scale_height: 50,
+    //   scales: [
+    //     {
+    //       unit: 'week', step: 1, format: function (date) {
+    //         var dateToStr = gantt.date.date_to_str('%d %M')
+    //         var endDate = gantt.date.add(date, -6, 'day')
+    //         var weekNum = gantt.date.date_to_str('%W')(date)
+    //         return '#' + weekNum + ', ' + dateToStr(date) + ' - ' + dateToStr(endDate)
+    //       }
+    //     },
+    //     { unit: 'day', step: 1, format: '%j %D' }
+    //   ]
+    // },
     // months
     {
       name: 'month',
       scale_height: 50,
       scales: [
-        { unit: 'month', step: 1, format: '%F, %Y' },
+        { unit: 'month', step: 1, format: '%Y,%M' },
         {
           unit: 'week', step: 1, format: function (date) {
             var dateToStr = gantt.date.date_to_str('%d %M')
@@ -73,14 +75,21 @@ var zoomConfig = {
     // quarters
     {
       name: 'quarter',
-      height: 50,
+      scale_height: 50,
       scales: [
-        {
-          unit: 'quarter', step: 3, format: function (date) {
-            var dateToStr = gantt.date.date_to_str('%M %y')
-            var endDate = gantt.date.add(gantt.date.add(date, 3, 'month'), -1, 'day')
-            return dateToStr(date) + ' - ' + dateToStr(endDate)
-          }
+        { unit: 'year', step: 1, format: '%Y' },
+        // {
+        //   unit: 'quarter', step: 3, format: function (date) {
+        //     var dateToStr = gantt.date.date_to_str('%M %y')
+        //     var endDate = gantt.date.add(gantt.date.add(date, 7, 'month'), 1, 'month')
+        //     return dateToStr(date) + ' - ' + dateToStr(endDate)
+        //   },
+        { unit: 'month', step: 4, format: function (date) {
+          var dateToStr = gantt.date.date_to_str('%M')
+          var endDate = gantt.date.add(date, 3, 'month')
+          return dateToStr(date) + ' - ' + dateToStr(endDate)
+        }
+          // unit: 'quarter', step: 3, format: '%Q'
         },
         { unit: 'month', step: 1, format: '%M' }
       ]
@@ -90,13 +99,15 @@ var zoomConfig = {
       name: 'year',
       scale_height: 50,
       scales: [
-        {
-          unit: 'year', step: 5, format: function (date) {
-            var dateToStr = gantt.date.date_to_str('%Y')
-            var endDate = gantt.date.add(gantt.date.add(date, 5, 'year'), -1, 'day')
-            return dateToStr(date) + ' - ' + dateToStr(endDate)
-          }
-        }
+        // {
+        //   unit: 'year', step: 5, format: function (date) {
+        //     var dateToStr = gantt.date.date_to_str('%Y')
+        //     var endDate = gantt.date.add(gantt.date.add(date, 5, 'year'), -1, 'month')
+        //     return dateToStr(date) + ' - ' + dateToStr(endDate)
+        //   }
+        // },
+        { unit: 'year', step: 1, format: '%Y' }
+        // { unit: 'month', step: 1, format: '%M' }
       ]
     },
     // decades
@@ -105,9 +116,9 @@ var zoomConfig = {
       scale_height: 50,
       scales: [
         {
-          unit: 'year', step: 100, format: function (date) {
+          unit: 'year', step: 50, format: function (date) {
             var dateToStr = gantt.date.date_to_str('%Y')
-            var endDate = gantt.date.add(gantt.date.add(date, 100, 'year'), -1, 'day')
+            var endDate = gantt.date.add(gantt.date.add(date, 50, 'year'), -1, 'day')
             return dateToStr(date) + ' - ' + dateToStr(endDate)
           }
         },
@@ -137,7 +148,7 @@ export default {
   },
   data() {
     return {
-      value1: '',
+      value1: '时间默认刻度',
       value3: 40,
       currentValue: 0
     }
@@ -172,26 +183,26 @@ export default {
       {
         name: 'text',
         tree: true,
-        width: '*',
+        width: 200,
         align: 'left',
         label: '产品/能力名称',
-        resize: true
+        resize: false
       },
-      { name: 'start_date', align: 'center', width: 80, resize: true },
-      {
-        name: 'cap_plan_end',
-        align: 'center',
-        label: '结束时间',
-        width: 80,
-        resize: true,
-        template: function (task) { return task.cap_plan_end ? task.cap_plan_end.substring(0, 10) : '' }
-      }
+      { name: 'start_date', align: 'center', width: 80, resize: true }
+      // {
+      //   name: 'cap_plan_end',
+      //   align: 'center',
+      //   label: '结束时间',
+      //   width: 80,
+      //   resize: true,
+      //   template: function (task) { return task.cap_plan_end ? task.cap_plan_end.substring(0, 10) : '' }
+      // }
     ]
     // 网格列自动调整为列的宽度
     gantt.config.autofit = true
     gantt.config.grid_width = 500
     gantt.config.fit_tasks = true // 自动扩展时间刻度，以适应任务块
-
+    gantt.config.task_height = 20
     gantt.config.layout = {// 表格初始布局
       css: 'gantt_container',
       rows: [
@@ -207,6 +218,17 @@ export default {
         { view: 'scrollbar', scroll: 'x', id: 'scrollHor', height: 20 }// 水平滚动条
       ]
     }
+    gantt.config.scales = [
+      { unit: 'month', step: 1, format: '%F, %Y' },
+      { unit: 'week', step: 1, format: function (date) {
+        return 'Week #' + gantt.date.getWeek(date)
+      } },
+      { unit: 'day', step: 1, format: '%D', css: function(date) {
+        if (!gantt.isWorkTime({ date: date, unit: 'day' })) {
+          return 'weekend'
+        }
+      } }
+    ]
     gantt.ext.zoom.init(zoomConfig)
 
     gantt.ext.zoom.setLevel('day')
@@ -214,16 +236,31 @@ export default {
     gantt.$zoomToFit = false
     gantt.init(this.$refs.gantt)
     gantt.parse(this.$props.tasks)
-    this.zoom_out()
+    // this.zoom_out()
+    // this.$nextTick(() => {
+    //   this.saveConfig()
+    //   this.zoomToFit()
+    // })
+
+    // this.zoom_out()
+    // setTimeout(() => {
+    //   this.saveConfig()
+    //   this.zoomToFit()
+    // }, 0)
+    // if (gantt.$zoomToFit) {
+
+    // }
   },
   methods: {
     // 时间刻度自适应/默认值切换
     toggleMode(toggle) {
       gantt.$zoomToFit = !gantt.$zoomToFit
       if (gantt.$zoomToFit) {
+        console.log('1234')
         this.saveConfig()
         this.zoomToFit()
       } else {
+        console.log('798')
         this.restoreConfig()
         gantt.render()
       }
@@ -326,7 +363,7 @@ export default {
 }
 </script>
 
-<style>
+ <style lang="scss" >
 @import '~dhtmlx-gantt/codebase/dhtmlxgantt.css';
 .gantt-style {
   width: 100%;
@@ -341,5 +378,8 @@ export default {
 }
 .operation-switch{
     margin-left:20px;
+  }
+  .gantt_message_area {
+     display: none;
   }
 </style>
