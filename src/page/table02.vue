@@ -2,7 +2,6 @@
 <template>
   <div>
     <p>shopInfo</p>
-
     <div class="company">
       <p>
         <el-button type="primary" @click="addCompany">添加公司</el-button>
