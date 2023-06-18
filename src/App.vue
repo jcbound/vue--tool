@@ -2,9 +2,9 @@
  * @Author       : jcbound
  * @Date         : 2021-01-30 14:34:56
  * @LastEditors  : jcbound
- * @LastEditTime : 2021-02-06 17:41:16
+ * @LastEditTime : 2023-02-22 22:50:26
  * @Description  : 我添加了修改
- * @FilePath     : \vuetest\src\App.vue
+ * @FilePath     : \vue--tool\src\App.vue
 -->
 <template>
   <div id="app">
@@ -101,3 +101,8 @@ export default {
   }
 }
 </script>
+<style>
+.el-button{
+  background-color:red;
+}
+</style>

@@ -13,7 +13,7 @@
     </vxe-toolbar>
 
     <vxe-table ref="xTree" resizable show-overflow keep-source :edit-rules="validRules" :tree-config="treeConfig" :edit-config="{trigger: 'click', mode: 'cell', showStatus: true}" :checkbox-config="{labelField: 'id'}" :data="tableData">
-      <vxe-table-column type="checkbox" title="ID" tree-node fixed="left" />
+                                    <vxe-table-column type="checkbox" title="ID" tree-node fixed="left" />
       <vxe-table-column field="name" title="Name" :edit-render="{name: 'input'}" />
       <vxe-table-column field="size" title="Size" :edit-render="{name: 'input'}" />
       <vxe-table-column field="type" title="Type" :edit-render="{name: 'input'}" />

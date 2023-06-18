@@ -2,9 +2,9 @@
  * @Author: jcbound
  * @Date: 2021-01-30 14:34:56
  * @LastEditors  : jcbound
- * @LastEditTime : 2021-02-04 23:34:53
+ * @LastEditTime : 2023-02-23 00:02:53
  * @Description: 我添加了修改
- * @FilePath     : \vuetest\src\page\component.vue
+ * @FilePath     : \vue--tool\src\page\component.vue
 -->
 <template>
   <div>
@@ -84,7 +84,7 @@ export default {
       type: Array,
       default: () => []
     },
-    searchData: {
+                                          searchData: {
       type: Object,
       default: () => { }
     }

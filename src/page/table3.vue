@@ -102,6 +102,11 @@ export default {
     },
     // 全选
     selectAll(rows) {
+      let ceshi = ''
+      let arr = []
+      arr.forEach(item => {
+        console.log(item)
+      })
       this.$emit('select', rows)
     },
     //
